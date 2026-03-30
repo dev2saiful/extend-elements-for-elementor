@@ -1,0 +1,84 @@
+/**
+ * Gradient Heading widget — frontend styles.
+ *
+ * @package Extend_Elements_For_Elementor
+ */
+
+.eefe-gradient-heading__text {
+	--eefe-color-1: #8b5cf6;
+	--eefe-color-2: #06b6d4;
+	--eefe-angle: 90deg;
+	--eefe-animation-duration: 4s;
+	margin: 0;
+	background-image: linear-gradient(var(--eefe-angle), var(--eefe-color-1), var(--eefe-color-2));
+	background-size: 200% 200%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	display: inline-block;
+}
+
+.eefe-gradient-heading--shimmer {
+	animation: eefe-gradient-shimmer var(--eefe-animation-duration) linear infinite;
+}
+
+.eefe-gradient-heading--pulse {
+	animation: eefe-gradient-pulse var(--eefe-animation-duration) ease-in-out infinite;
+}
+
+.eefe-gradient-heading--wave {
+	animation: eefe-gradient-wave var(--eefe-animation-duration) ease-in-out infinite;
+}
+
+.eefe-gradient-heading--float {
+	animation: eefe-gradient-float var(--eefe-animation-duration) ease-in-out infinite;
+}
+
+@keyframes eefe-gradient-shimmer {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	100% {
+		background-position: 200% 50%;
+	}
+}
+
+@keyframes eefe-gradient-pulse {
+	0%,
+	100% {
+		transform: scale(1);
+		filter: brightness(1);
+	}
+
+	50% {
+		transform: scale(1.04);
+		filter: brightness(1.2);
+	}
+}
+
+@keyframes eefe-gradient-wave {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-6px);
+	}
+}
+
+@keyframes eefe-gradient-float {
+	0% {
+		transform: translateX(0);
+	}
+
+	50% {
+		transform: translateX(6px);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+}
