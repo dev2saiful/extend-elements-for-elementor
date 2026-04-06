@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Extend Elements for Elementor
  * Description: Custom Elementor widgets that can be added modularly per widget folder.
- * Version: 1.0.0
+ * Version: 1.0.2
  * Author: Dev2SaifuL
  * Text Domain: extend-elements-for-elementor
  * License: GPL-2.0-or-later
