@@ -1,0 +1,292 @@
+/* =========================================================
+   EEFE Slider Widget — style.css
+   ========================================================= */
+
+.eefe-slider-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* ─── Slider Container ─── */
+.eefe-slider {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ─── Slides Container ─── */
+.eefe-slides-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.eefe-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.eefe-slide.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+.eefe-slide.prev-active {
+    opacity: 0.3;
+    z-index: 5;
+}
+
+/* ─── Slide Image ─── */
+.eefe-slide-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.eefe-slide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ─── Slide Content ─── */
+.eefe-slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    padding: 40px;
+}
+
+.eefe-slide-text {
+    max-width: 600px;
+    animation: slideInContent 0.8s ease-out;
+}
+
+@keyframes slideInContent {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.eefe-slide-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 0 0 20px;
+    line-height: 1.2;
+    color: #000000;
+}
+
+.eefe-slide-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #666666;
+    margin: 0;
+}
+
+/* ─── Slide Link (Overlay) ─── */
+.eefe-slide-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    text-decoration: none;
+}
+
+/* ─── Navigation Arrows ─── */
+.eefe-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 15;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 40px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eefe-slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.eefe-slider-prev {
+    left: 20px;
+}
+
+.eefe-slider-next {
+    right: 20px;
+}
+
+.eefe-slider-arrow i {
+    display: block;
+    line-height: 1;
+}
+
+/* ─── Pagination Dots ─── */
+.eefe-pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.eefe-pagination-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.eefe-pagination-dot:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.15);
+}
+
+.eefe-pagination-dot.active {
+    background-color: #ffffff;
+    transform: scale(1.3);
+}
+
+/* ─── Thumbnails ─── */
+.eefe-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.eefe-thumbnail {
+    width: 80px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+.eefe-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.eefe-thumbnail:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.eefe-thumbnail.active {
+    border-color: #333333;
+    opacity: 1;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .eefe-slide-title {
+        font-size: 1.8em;
+    }
+
+    .eefe-slide-description {
+        font-size: 0.95em;
+    }
+
+    .eefe-slider-arrow {
+        padding: 10px 12px;
+        font-size: 28px;
+    }
+
+    .eefe-slider-prev {
+        left: 10px;
+    }
+
+    .eefe-slider-next {
+        right: 10px;
+    }
+
+    .eefe-slide-content {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .eefe-slide-title {
+        font-size: 1.2em;
+    }
+
+    .eefe-slide-description {
+        font-size: 0.85em;
+    }
+
+    .eefe-slider-arrow {
+        padding: 8px 10px;
+        font-size: 20px;
+    }
+
+    .eefe-pagination-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .eefe-thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+
+    .eefe-slide-content {
+        padding: 20px;
+    }
+}

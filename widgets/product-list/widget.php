@@ -204,6 +204,18 @@ class EEFE_Product extends Widget_Base
 		);
 
 		$this->add_control(
+			'show_subtitle',
+			[
+				'label'        => __('Show Subtitle', 'extend-elements'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'extend-elements'),
+				'label_off'    => __('Hide', 'extend-elements'),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			]
+		);
+
+		$this->add_control(
 			'show_price',
 			[
 				'label'        => __('Show Price', 'extend-elements'),
@@ -227,6 +239,58 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
+		// ── Card Element Order ────────────────────────────
+		$this->add_control(
+			'card_order_heading',
+			[
+				'label'     => __('Card Element Order', 'extend-elements'),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'card_order_note',
+			[
+				'type'            => Controls_Manager::RAW_HTML,
+				'raw'             => __('Set the display order for Image, Title, and Subtitle inside the card. Use numbers 1–3 (lower = appears first).', 'extend-elements'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		$this->add_control(
+			'card_order_image',
+			[
+				'label'   => __('Image Order', 'extend-elements'),
+				'type'    => Controls_Manager::NUMBER,
+				'default' => 1,
+				'min'     => 1,
+				'max'     => 3,
+			]
+		);
+
+		$this->add_control(
+			'card_order_title',
+			[
+				'label'   => __('Title Order', 'extend-elements'),
+				'type'    => Controls_Manager::NUMBER,
+				'default' => 2,
+				'min'     => 1,
+				'max'     => 3,
+			]
+		);
+
+		$this->add_control(
+			'card_order_subtitle',
+			[
+				'label'   => __('Subtitle Order', 'extend-elements'),
+				'type'    => Controls_Manager::NUMBER,
+				'default' => 3,
+				'min'     => 1,
+				'max'     => 3,
+			]
+		);
+
 		$this->end_controls_section();
 
 		/* =============================================
@@ -235,7 +299,7 @@ class EEFE_Product extends Widget_Base
 		$this->start_controls_section(
 			'section_style_list',
 			[
-				'label' => __('Product List', 'extend-elements'),
+				'label' => __('Product List Title', 'extend-elements'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -243,9 +307,9 @@ class EEFE_Product extends Widget_Base
 		$this->add_control(
 			'list_heading',
 			[
-				'label'     => __('Heading', 'extend-elements'),
-				'type'      => Controls_Manager::TEXT,
-				'default'   => __('Products', 'extend-elements'),
+				'label'       => __('Heading', 'extend-elements'),
+				'type'        => Controls_Manager::TEXT,
+				'default'     => __('Products', 'extend-elements'),
 				'label_block' => true,
 			]
 		);
@@ -270,12 +334,14 @@ class EEFE_Product extends Widget_Base
 		);
 
 		$this->add_control(
-			'col_label_color',
+			'list_column_width',
 			[
-				'label'     => __('Column Label Color', 'extend-elements'),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#888888',
-				'selectors' => ['{{WRAPPER}} .eefe-product-col-label' => 'color: {{VALUE}};'],
+				'label'      => __('Column Width', 'extend-elements'),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['%'],
+				'range'      => ['%' => ['min' => 20, 'max' => 80, 'step' => 1]],
+				'default'    => ['unit' => '%', 'size' => 55],
+				'selectors'  => ['{{WRAPPER}} .eefe-product-left' => 'flex: 0 0 {{SIZE}}{{UNIT}};'],
 			]
 		);
 
@@ -311,15 +377,7 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'name_hover_color',
-			[
-				'label'     => __('Hover Color', 'extend-elements'),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#0073aa',
-				'selectors' => ['{{WRAPPER}} .eefe-product-item:hover .eefe-product-name' => 'color: {{VALUE}};'],
-			]
-		);
+
 
 		$this->add_control(
 			'name_active_color',
@@ -331,22 +389,21 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
+		$this->add_control(
+			'name_bg_color',
 			[
-				'name'     => 'model_typography',
-				'label'    => __('Model / SKU Typography', 'extend-elements'),
-				'selector' => '{{WRAPPER}} .eefe-product-model',
+				'label'     => __('Background Color', 'extend-elements'),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => ['{{WRAPPER}} .eefe-product-item' => 'background-color: {{VALUE}};'],
 			]
 		);
 
 		$this->add_control(
-			'model_color',
+			'name_active_bg_color',
 			[
-				'label'     => __('Model / SKU Color', 'extend-elements'),
+				'label'     => __('Active Background Color', 'extend-elements'),
 				'type'      => Controls_Manager::COLOR,
-				'default'   => '#0073aa',
-				'selectors' => ['{{WRAPPER}} .eefe-product-model' => 'color: {{VALUE}};'],
+				'selectors' => ['{{WRAPPER}} .eefe-product-item.is-active' => 'background-color: {{VALUE}};'],
 			]
 		);
 
@@ -383,7 +440,82 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
-		// Card Title
+		$this->add_control(
+			'card_border_color',
+			[
+				'label'     => __('Border Color', 'extend-elements'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#e4e4e4',
+				'selectors' => ['{{WRAPPER}} .eefe-product-card' => 'border-color: {{VALUE}};'],
+			]
+		);
+
+		$this->add_control(
+			'card_box_shadow',
+			[
+				'label'     => __('Box Shadow', 'extend-elements'),
+				'type'      => Controls_Manager::TEXT,
+				'selectors' => ['{{WRAPPER}} .eefe-product-card' => 'box-shadow: {{VALUE}};'],
+				'description' => __('Enter box-shadow CSS value. Example: 0 4px 24px rgba(0,0,0,0.08)', 'extend-elements'),
+			]
+		);
+
+		// ── Card Image ────────────────────────────────────
+		$this->add_control(
+			'card_image_heading',
+			[
+				'label'     => __('Card Image', 'extend-elements'),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => ['show_image' => 'yes'],
+			]
+		);
+
+		$this->add_responsive_control(
+			'card_image_height',
+			[
+				'label'      => __('Image Height', 'extend-elements'),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px', 'vh', '%'],
+				'range'      => [
+					'px' => ['min' => 80, 'max' => 600, 'step' => 4],
+					'vh' => ['min' => 10, 'max' => 80],
+					'%'  => ['min' => 10, 'max' => 100, 'step' => 1],
+				],
+				'selectors'  => ['{{WRAPPER}} .eefe-card-image-wrap' => 'height: {{SIZE}}{{UNIT}}; aspect-ratio: unset;'],
+				'condition'  => ['show_image' => 'yes'],
+			]
+		);
+
+		$this->add_control(
+			'card_image_fit',
+			[
+				'label'     => __('Image Fit', 'extend-elements'),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'contain',
+				'options'   => [
+					'contain' => __('Contain', 'extend-elements'),
+					'cover'   => __('Cover', 'extend-elements'),
+					'fill'    => __('Fill', 'extend-elements'),
+					'none'    => __('None', 'extend-elements'),
+				],
+				'selectors' => ['{{WRAPPER}} .eefe-card-image' => 'object-fit: {{VALUE}};'],
+				'condition' => ['show_image' => 'yes'],
+			]
+		);
+
+		$this->add_control(
+			'card_image_bg_color',
+			[
+				'label'     => __('Image Area Background', 'extend-elements'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#f5f5f5',
+				'selectors' => ['{{WRAPPER}} .eefe-card-image-wrap' => 'background-color: {{VALUE}};'],
+				'condition' => ['show_image' => 'yes'],
+			]
+		);
+
+		// ── Card Title ────────────────────────────────────
 		$this->add_control(
 			'card_title_heading',
 			[
@@ -415,7 +547,52 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
-		// Card Price
+		// ── Card Subtitle ─────────────────────────────────
+		$this->add_control(
+			'card_subtitle_heading',
+			[
+				'label'     => __('Card Subtitle', 'extend-elements'),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => ['show_subtitle' => 'yes'],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'      => 'card_subtitle_typography',
+				'label'     => __('Subtitle Typography', 'extend-elements'),
+				'selector'  => '{{WRAPPER}} .eefe-card-subtitle',
+				'condition' => ['show_subtitle' => 'yes'],
+			]
+		);
+
+		$this->add_control(
+			'card_subtitle_color',
+			[
+				'label'     => __('Subtitle Color', 'extend-elements'),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#666666',
+				'selectors' => ['{{WRAPPER}} .eefe-card-subtitle' => 'color: {{VALUE}};'],
+				'condition' => ['show_subtitle' => 'yes'],
+			]
+		);
+
+		$this->add_responsive_control(
+			'card_subtitle_spacing',
+			[
+				'label'      => __('Subtitle Bottom Spacing', 'extend-elements'),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range'      => ['px' => ['min' => 0, 'max' => 40]],
+				'default'    => ['unit' => 'px', 'size' => 6],
+				'selectors'  => ['{{WRAPPER}} .eefe-card-subtitle' => 'margin-bottom: {{SIZE}}{{UNIT}};'],
+				'condition'  => ['show_subtitle' => 'yes'],
+			]
+		);
+
+		// ── Card Price ────────────────────────────────────
 		$this->add_control(
 			'card_price_heading',
 			[
@@ -447,7 +624,7 @@ class EEFE_Product extends Widget_Base
 			]
 		);
 
-		// Card Review
+		// ── Card Review ───────────────────────────────────
 		$this->add_control(
 			'card_review_heading',
 			[
@@ -530,7 +707,7 @@ class EEFE_Product extends Widget_Base
 		$terms    = ($taxonomy === 'product_cat') ? $settings['query_terms_cat'] : $settings['query_terms_tag'];
 
 		if (! empty($terms)) {
-			$operator = ($settings['query_filter_type'] === 'exclude') ? 'NOT IN' : 'IN';
+			$operator           = ($settings['query_filter_type'] === 'exclude') ? 'NOT IN' : 'IN';
 			$existing_tax_query = isset($args['tax_query']) ? $args['tax_query'] : [];
 			$args['tax_query']  = array_merge($existing_tax_query, [
 				[
@@ -573,16 +750,20 @@ class EEFE_Product extends Widget_Base
 
 		$query    = new WP_Query($this->build_query_args($settings));
 		$heading  = ! empty($settings['list_heading']) ? esc_html($settings['list_heading']) : '';
-		$show_img = $settings['show_image']  === 'yes';
-		$show_ttl = $settings['show_title']  === 'yes';
-		$show_prc = $settings['show_price']  === 'yes';
-		$show_rev = $settings['show_review'] === 'yes';
+		$show_img = $settings['show_image']    === 'yes';
+		$show_ttl = $settings['show_title']    === 'yes';
+		$show_sub = $settings['show_subtitle'] === 'yes';
+		$show_prc = $settings['show_price']    === 'yes';
+		$show_rev = $settings['show_review']   === 'yes';
+
+		// Card element CSS order values (defaults: image=1, title=2, subtitle=3)
+		$order_image    = ! empty($settings['card_order_image'])    ? (int) $settings['card_order_image']    : 1;
+		$order_title    = ! empty($settings['card_order_title'])    ? (int) $settings['card_order_title']    : 2;
+		$order_subtitle = ! empty($settings['card_order_subtitle']) ? (int) $settings['card_order_subtitle'] : 3;
 ?>
-		<div class="eefe-product-widget"
-			data-show-image="<?php echo $show_img ? '1' : '0'; ?>"
-			data-show-title="<?php echo $show_ttl ? '1' : '0'; ?>"
-			data-show-price="<?php echo $show_prc ? '1' : '0'; ?>"
-			data-show-review="<?php echo $show_rev ? '1' : '0'; ?>">
+		<div class="eefe-product-widget" data-show-image="<?php echo $show_img ? '1' : '0'; ?>"
+			data-show-title="<?php echo $show_ttl ? '1' : '0'; ?>" data-show-subtitle="<?php echo $show_sub ? '1' : '0'; ?>"
+			data-show-price="<?php echo $show_prc ? '1' : '0'; ?>" data-show-review="<?php echo $show_rev ? '1' : '0'; ?>">
 
 			<div class="eefe-product-left">
 				<?php if ($heading) : ?>
@@ -590,31 +771,29 @@ class EEFE_Product extends Widget_Base
 				<?php endif; ?>
 
 				<div class="eefe-product-table">
-					<div class="eefe-product-table-header">
-						<span class="eefe-product-col-label"><?php esc_html_e('Product Model', 'extend-elements'); ?></span>
-					</div>
-
 					<ul class="eefe-product-list">
 						<?php if ($query->have_posts()) :
 							while ($query->have_posts()) : $query->the_post();
 								$product   = wc_get_product(get_the_ID());
 								if (! $product) continue;
-								$permalink = get_permalink();
-								$sku       = $product->get_sku();
-								$title     = get_the_title();
-								$img_url   = get_the_post_thumbnail_url(get_the_ID(), 'medium') ?: wc_placeholder_img_src();
+								$permalink  = get_permalink();
+								$title      = get_the_title();
+								$img_url    = get_the_post_thumbnail_url(get_the_ID(), 'full') ?: wc_placeholder_img_src();
 								$price_html = $product->get_price_html();
-								$rating    = $product->get_average_rating();
-								$rev_count = $product->get_review_count();
+								$rating     = $product->get_average_rating();
+								$rev_count  = $product->get_review_count();
+
+								// Pull subtitle from ACF custom field (field key: field_69ae6a3b14fe2)
+								if (function_exists('get_field')) {
+									$subtitle = get_field('product_subtitle', get_the_ID()) ?: '';
+								} else {
+									$subtitle = get_post_meta(get_the_ID(), 'product_subtitle', true) ?: '';
+								}
 						?>
-								<li class="eefe-product-item"
-									data-permalink="<?php echo esc_url($permalink); ?>"
-									data-title="<?php echo esc_attr($title); ?>"
-									data-image="<?php echo esc_url($img_url); ?>"
-									data-price="<?php echo esc_attr($price_html); ?>"
-									data-rating="<?php echo esc_attr($rating); ?>"
-									data-reviews="<?php echo esc_attr($rev_count); ?>">
-									<span class="eefe-product-model"><?php echo esc_html($sku ?: '—'); ?></span>
+								<li class="eefe-product-item" data-permalink="<?php echo esc_url($permalink); ?>"
+									data-title="<?php echo esc_attr($title); ?>" data-subtitle="<?php echo esc_attr($subtitle); ?>"
+									data-image="<?php echo esc_url($img_url); ?>" data-price="<?php echo esc_attr($price_html); ?>"
+									data-rating="<?php echo esc_attr($rating); ?>" data-reviews="<?php echo esc_attr($rev_count); ?>">
 									<a href="<?php echo esc_url($permalink); ?>" class="eefe-product-name">
 										<?php echo esc_html($title); ?>
 									</a>
@@ -631,17 +810,23 @@ class EEFE_Product extends Widget_Base
 
 			<div class="eefe-product-right">
 				<div class="eefe-product-card">
-					<div class="eefe-card-image-wrap">
+
+					<?php // Image — orderable via CSS flex order 
+					?>
+					<div class="eefe-card-image-wrap" style="order: <?php echo esc_attr($order_image); ?>;">
 						<img class="eefe-card-image" src="" alt="" />
 					</div>
+
 					<div class="eefe-card-body">
-						<h4 class="eefe-card-title"></h4>
+						<h4 class="eefe-card-title" style="order: <?php echo esc_attr($order_title); ?>;"></h4>
+						<p class="eefe-card-subtitle" style="order: <?php echo esc_attr($order_subtitle); ?>;"></p>
 						<div class="eefe-card-price"></div>
 						<div class="eefe-card-stars">
 							<span class="stars-inner"></span>
 							<span class="eefe-card-review-count"></span>
 						</div>
 					</div>
+
 				</div>
 			</div><!-- .eefe-product-right -->
 
